@@ -21,7 +21,9 @@ export class UserService {
     };
   }
 
-  findOne(id: number) {
-    return `This aaction return a #${id} user`;
+  findByEmail(email: string) {
+    return this.prisma.usuario.findUnique({
+      where: { email },
+    });
   }
 }
