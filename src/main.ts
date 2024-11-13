@@ -5,6 +5,13 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Habilitando CORS
+  app.enableCors({
+    origin: 'http://localhost:8100', // Permite apenas o frontend local
+    methods: 'GET,POST,PUT,DELETE', // Métodos HTTP permitidos
+    credentials: true, // Permite cookies
+  });
+
   //Pipes
   app.useGlobalPipes(
     new ValidationPipe({
