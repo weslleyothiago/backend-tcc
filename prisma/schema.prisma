@@ -1,0 +1,143 @@
+generator client {
+ provider = "prisma-client-js"
+}
+
+datasource db {
+ provider = "mysql"
+ url      = env("DATABASE_URL")
+}
+
+model Artista {
+ id   Int     @id @default(autoincrement())
+ nome String  @db.VarChar(255)
+ slug String  @unique @db.VarChar(255)
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ MusicaArtista MusicaArtista[]
+}
+
+model Genero {
+ id            Int     @id @default(autoincrement())
+ generoMusical String  @db.VarChar(255)
+ slug          String  @unique @db.VarChar(255)
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ Musicas Musica[]
+}
+
+model Musica {
+ id                Int     @id @default(autoincrement())
+ titulo            String  @db.VarChar(255)
+ duracao           String  @db.VarChar(20)
+ link              String  @unique @db.VarChar(255)
+ slug              String  @unique @db.VarChar(255)
+ generoMusical     Genero  @relation(fields: [fkGeneroMusicalId], references: [id])
+ fkGeneroMusicalId Int
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ MusicaArtista  MusicaArtista[]
+ PlaylistMusica PlaylistMusica[]
+ Historico      Historico[]
+}
+
+model Usuario {
+ id    Int         @id @default(autoincrement())
+ tipo  UsuarioTipo @default(Cliente)
+ email String      @unique @db.VarChar(255)
+ senha String      @db.VarChar(255)
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ Perfis  Perfil[]
+ Sessoes Sessao[]
+}
+
+enum UsuarioTipo {
+ Administrador
+ Cliente
+}
+
+model Perfil {
+ id             Int       @id @default(autoincrement())
+ nome           String    @db.VarChar(255)
+ fotoPerfil     String?   @db.VarChar(255)
+ dataNascimento DateTime
+ slug           String    @unique @db.VarChar(255)
+ usuario        Usuario?  @relation(fields: [fkUsuarioId], references: [id])
+ fkUsuarioId    Int?
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ PerfisPlaylists PerfisPlaylists[]
+}
+
+model Playlist {
+ id   Int     @id @default(autoincrement())
+ nome String  @db.VarChar(255)
+ slug String  @unique @db.VarChar(255)
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ PerfisPlaylists PerfisPlaylists[]
+ PlaylistMusica  PlaylistMusica[]
+}
+
+model PerfisPlaylists {
+ perfilId   Int
+ playlistId Int
+ perfil     Perfil   @relation(fields: [perfilId], references: [id])
+ playlist   Playlist @relation(fields: [playlistId], references: [id])
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ @@id([perfilId, playlistId])
+}
+
+model Historico {
+ id         Int      @id @default(autoincrement())
+ musica     Musica   @relation(fields: [fkMusicaId], references: [id])
+ fkMusicaId Int
+ dataHora   DateTime
+}
+
+model Sessao {
+ id           Int          @id @default(autoincrement())
+ usuario      Usuario      @relation(fields: [fkUsuarioId], references: [id])
+ fkUsuarioId  Int
+ dataInicio   DateTime
+ dataFinal    DateTime?
+ codigoSessao String       @db.VarChar(255)
+ status       SessaoStatus
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+}
+
+enum SessaoStatus {
+ Iniciada
+ Finalizada
+}
+
+model MusicaArtista {
+ musicaId  Int
+ artistaId Int
+ musica    Musica  @relation(fields: [musicaId], references: [id])
+ artista   Artista @relation(fields: [artistaId], references: [id])
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ @@id([musicaId, artistaId])
+}
+
+model PlaylistMusica {
+ playlistId Int
+ musicaId   Int
+ playlist   Playlist @relation(fields: [playlistId], references: [id])
+ musica     Musica   @relation(fields: [musicaId], references: [id])
+ createdAt DateTime @default(now())
+ updatedAt DateTime? @updatedAt
+
+ @@id([playlistId, musicaId])
+}
