@@ -9,19 +9,16 @@ export class MusicController {
     private readonly musicService: MusicService
   ) {}
 
-  @IsPublic()
   @Post('')
   async create(@Body() createMusicDto: CreateMusicDto) {
     return this.musicService.create(createMusicDto);
   }
 
-  @IsPublic()
   @Get()
   async findAll() {
     return this.musicService.findAll();
   }
 
-  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.musicService.findOne(id);
