@@ -67,7 +67,7 @@ model Perfil {
  dataNascimento DateTime
  slug           String    @unique @db.VarChar(255)
  usuario        Usuario?  @relation(fields: [fkUsuarioId], references: [id])
- fkUsuarioId    Int?
+ fkUsuarioId    Int
  createdAt DateTime @default(now())
  updatedAt DateTime? @updatedAt
 
