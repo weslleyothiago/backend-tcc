@@ -19,7 +19,15 @@ export class MusicService {
   }
 
   async findAll() {
-    return this.prisma.musica.findMany();
+    return this.prisma.musica.findMany({
+      include: {
+        generoMusical: true,
+      },
+    });
+  }
+
+  async findAllGenres() {
+    return this.prisma.genero.findMany();
   }
 
   async findOne (id: string) {

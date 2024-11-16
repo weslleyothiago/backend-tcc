@@ -14,11 +14,19 @@ export class MusicController {
     return this.musicService.create(createMusicDto);
   }
 
+  @IsPublic()
   @Get()
   async findAll() {
     return this.musicService.findAll();
   }
 
+  @IsPublic()
+  @Get('genres')
+  async findAllGenres() {
+    return this.musicService.findAllGenres()
+  }
+
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.musicService.findOne(id);
