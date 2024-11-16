@@ -10,6 +10,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { YoutubeModule } from './youtube/youtube.module';
 import { ProfileModule } from './profile/profile.module';
+import { SlugModule } from './slug/slug.module';
+import { SlugService } from './slug/slug.service';
 
 @Module({
   imports: [
@@ -20,14 +22,16 @@ import { ProfileModule } from './profile/profile.module';
     YoutubeModule, 
     ConfigModule.forRoot({
     isGlobal: true,
-  }), ProfileModule],
+  }), ProfileModule, SlugModule],
   controllers: [AppController],
   providers: [
+    SlugService,
     AppService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
   ],
+  exports: [SlugService],
 })
 export class AppModule {}

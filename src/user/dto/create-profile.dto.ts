@@ -1,8 +1,12 @@
 import { IsDateString, IsInt, IsOptional, IsString } from "class-validator";
+import { SlugService } from "src/slug/slug.service";
 
 export class CreateProfileDto {
     @IsString()
     nome: string;
+
+    @IsString()
+    slug: string;
 
     @IsOptional()
     @IsString()
@@ -11,10 +15,6 @@ export class CreateProfileDto {
     @IsDateString()
     dataNascimento: string;
 
-    @IsString()
-    slug: string;
-
     @IsInt()
     fkUsuarioId: number;
-
 }

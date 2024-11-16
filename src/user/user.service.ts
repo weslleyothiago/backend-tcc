@@ -3,12 +3,18 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateProfileDto } from './dto/create-profile.dto'; // DTO do perfil
 import * as bcrypt from 'bcrypt';
+import { SlugService } from 'src/slug/slug.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly slugService: SlugService
+  ) {}
 
   async create(createUserDto: CreateUserDto, createProfileDto: CreateProfileDto) {
+    const profileSlug = this.slugService.generateSlug(createProfileDto.nome)
+    
     // Hash da senha do usuário
     const data = {
       ...createUserDto,
@@ -26,7 +32,7 @@ export class UserService {
           nome: createProfileDto.nome,
           fotoPerfil: createProfileDto.fotoPerfil,
           dataNascimento: new Date(createProfileDto.dataNascimento),
-          slug: createProfileDto.slug,
+          slug: profileSlug,
           fkUsuarioId: user.id, // Associando o perfil ao usuário
         },
       });
