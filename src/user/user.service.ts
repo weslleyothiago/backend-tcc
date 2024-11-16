@@ -15,7 +15,6 @@ export class UserService {
   async create(createUserDto: CreateUserDto, createProfileDto: CreateProfileDto) {
     const profileSlug = this.slugService.generateSlug(createProfileDto.nome)
     
-    // Hash da senha do usuário
     const data = {
       ...createUserDto,
       senha: await bcrypt.hash(createUserDto.senha, 10),
@@ -23,30 +22,28 @@ export class UserService {
 
     // Inicia uma transação para criar o usuário e o perfil simultaneamente
     const createdUser = await this.prisma.$transaction(async (prisma) => {
-      // Criação do usuário
+
       const user = await prisma.usuario.create({ data });
 
-      // Criação do perfil associado ao usuário recém-criado
       const profile = await prisma.perfil.create({
         data: {
           nome: createProfileDto.nome,
           fotoPerfil: createProfileDto.fotoPerfil,
           dataNascimento: new Date(createProfileDto.dataNascimento),
           slug: profileSlug,
-          fkUsuarioId: user.id, // Associando o perfil ao usuário
+          fkUsuarioId: user.id,
         },
       });
 
-      return { user, profile };  // Retorna o usuário e o perfil criados
+      return { user, profile };
     });
 
-    // Retorna o usuário e o perfil criado sem a senha
     return {
       user: {
         ...createdUser.user,
-        senha: undefined,  // Não retorna a senha do usuário
+        senha: undefined,
       },
-      profile: createdUser.profile, // Retorna o perfil criado
+      profile: createdUser.profile,
     };
   }
 

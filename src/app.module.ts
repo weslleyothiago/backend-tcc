@@ -12,6 +12,7 @@ import { YoutubeModule } from './youtube/youtube.module';
 import { ProfileModule } from './profile/profile.module';
 import { SlugModule } from './slug/slug.module';
 import { SlugService } from './slug/slug.service';
+import { ArtistModule } from './artist/artist.module';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { SlugService } from './slug/slug.service';
     YoutubeModule, 
     ConfigModule.forRoot({
     isGlobal: true,
-  }), ProfileModule, SlugModule],
+  }), ProfileModule, SlugModule, ArtistModule],
   controllers: [AppController],
   providers: [
     SlugService,

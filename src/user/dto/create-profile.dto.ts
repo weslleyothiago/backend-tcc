@@ -1,5 +1,4 @@
 import { IsDateString, IsInt, IsOptional, IsString } from "class-validator";
-import { SlugService } from "src/slug/slug.service";
 
 export class CreateProfileDto {
     @IsString()
