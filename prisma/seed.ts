@@ -46,13 +46,13 @@ async function main() {
       id: 1,
       tipo: 'Administrador',
       email: 'admin@admin.com',
-      senha: 'admin123',
+      senha: '',
     },
     {
       id: 2,
       tipo: 'Cliente',
       email: 'test@test.com',
-      senha: 'test1234',
+      senha: '$2b$10$oGPMXSLcR81RwJT0TXr5T.s/HScYaxKqEr.jh48DU0Au8on.Rqrim',
     },
   ];
 

@@ -31,7 +31,7 @@ export class AuthService {
     const user = await this.userService.findByEmail(email);
 
     if (user) {
-      // Checar se asnha informada corresponde a hash que está no banco
+      // Checar se a senha informada corresponde a hash que está no banco
       const isPasswordValid = await bcrypt.compare(password, user.senha);
 
       if (isPasswordValid) {

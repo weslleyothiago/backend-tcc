@@ -9,6 +9,7 @@ import { MusicModule } from './music/music.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { YoutubeModule } from './youtube/youtube.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { YoutubeModule } from './youtube/youtube.module';
     YoutubeModule, 
     ConfigModule.forRoot({
     isGlobal: true,
-  })],
+  }), ProfileModule],
   controllers: [AppController],
   providers: [
     AppService,
