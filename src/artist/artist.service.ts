@@ -1,8 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateArtistDto } from './dto/create-artist.dto';
-import { UpdateArtistDto } from './dto/update-artist.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SlugService } from 'src/slug/slug.service';
+import { CreateArtistDto } from './dto/create-artist.dto';
 
 @Injectable()
 export class ArtistService {
@@ -32,12 +31,21 @@ export class ArtistService {
     }
   }
 
+  async searchArtists(query: string) {
+    return this.prisma.artista.findMany({
+      where: {
+        nome: {
+          contains: query,
+        },
+      },
+      select: { nome: true},
+      take: 10,
+    });
+  }
+
   findAll() {
     return `This action returns all artist`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} artist`;
-  }
 
 }

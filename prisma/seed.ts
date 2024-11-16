@@ -76,6 +76,49 @@ async function main() {
       });
     }
   }
+
+  const artistas = [
+    "Adele", "Alicia Keys", "Ariana Grande", "Beyoncé", "Billie Eilish", "Bruno Mars",
+    "Camila Cabello", "Celine Dion", "Charlie Puth", "Chris Brown", "Christina Aguilera",
+    "Coldplay", "David Bowie", "Demi Lovato", "Drake", "Ed Sheeran", "Elton John", "Emily Sande",
+    "Eminem", "Evanescence", "Florence Welch", "Frank Ocean", "George Michael", "Imagine Dragons",
+    "James Blunt", "Janet Jackson", "Jennifer Lopez", "Jessie J", "John Legend", "Jorja Smith",
+    "Justin Bieber", "Katy Perry", "Kesha", "Lady Gaga", "Lana Del Rey", "Leonard Cohen", "Lizzo",
+    "Lordes", "Mariah Carey", "Mark Ronson", "Miley Cyrus", "Michael Jackson", "Nicki Minaj",
+    "Nina Simone", "Norah Jones", "Olivia Rodrigo", "Pink", "Prince", "Rihanna", "Robbie Williams",
+    "Sam Smith", "Shakira", "Shawn Mendes", "Sia", "Taylor Swift", "The Weeknd", "Tina Turner",
+    "Troye Sivan", "U2", "Usher", "Whitney Houston", "Yoko Ono", "Zayn Malik", "Kanye West", "Lil Wayne",
+    "Post Malone", "Drake", "Travis Scott", "Kendrick Lamar", "J. Cole", "Cardi B", "Migos", "Snoop Dogg",
+    "Jay-Z", "Lil Nas X", "Doja Cat", "Tyler, The Creator", "A$AP Rocky", "Nas", "Meek Mill", "Future",
+    "Megan Thee Stallion", "21 Savage", "Lil Uzi Vert", "Chief Keef", "Mac Miller", "Logic", "Chance the Rapper",
+    "Big Sean", "The Notorious B.I.G.", "Tupac Shakur", "Ice Cube", "Public Enemy", "N.W.A", "Wu-Tang Clan",
+    "OutKast", "Eminem", "Missy Elliott", "Lauryn Hill", "M.I.A.", "Queen Latifah", "Salt-N-Pepa", "Busta Rhymes",
+    "Run DMC", "Beastie Boys", "KRS-One", "Rakim", "Dr. Dre", "A Tribe Called Quest", "De La Soul", "The Roots",
+    "Lil Kim", "Eve", "Foxy Brown", "Nicki Minaj", "Cardi B"
+  ];
+
+  // Iterando sobre a lista de artistas e adicionando no banco de dados
+  for (const nome of artistas) {
+    // Gerar o slug a partir do nome do artista
+    const slug = nome.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+
+    // Verificar se o artista já existe
+    const existingArtist = await prisma.artista.findUnique({
+      where: { slug: slug },
+    });
+
+    // Se o artista não existir, criar
+    if (!existingArtist) {
+      await prisma.artista.create({
+        data: {
+          nome: nome,
+          slug: slug,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+    }
+  }
 }
 
 main()

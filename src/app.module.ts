@@ -9,7 +9,6 @@ import { MusicModule } from './music/music.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { YoutubeModule } from './youtube/youtube.module';
-import { ProfileModule } from './profile/profile.module';
 import { SlugModule } from './slug/slug.module';
 import { SlugService } from './slug/slug.service';
 import { ArtistModule } from './artist/artist.module';
@@ -23,7 +22,7 @@ import { ArtistModule } from './artist/artist.module';
     YoutubeModule, 
     ConfigModule.forRoot({
     isGlobal: true,
-  }), ProfileModule, SlugModule, ArtistModule],
+  }), SlugModule, ArtistModule],
   controllers: [AppController],
   providers: [
     SlugService,
