@@ -6,18 +6,30 @@ import { CreateMusicDto } from './dto/create-music.dto';
 export class MusicService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // Método para criar apenas a música
   async create(data: CreateMusicDto) {
-    return this.prisma.musica.create({ 
+    return this.prisma.musica.create({
       data: {
-        titulo: data.title, // Mapeando title para titulo
-        duracao: data.duration, // Mapeando duration para duracao
+        titulo: data.title,
+        duracao: data.duration,
         link: data.link,
         slug: data.slug,
-        fkGeneroMusicalId: data.genreId, // Mapeando genreId para fkGeneroMusicalId
-      }
-     });
+        fkGeneroMusicalId: data.genreId,
+      },
+    });
   }
 
+  // Método para criar a relação entre a música e o artista
+  async createMusicArtistRelation(data: { musicaId: number; artistaId: number }) {
+    return this.prisma.musicaArtista.create({
+      data: {
+        musicaId: data.musicaId,
+        artistaId: data.artistaId,
+      },
+    });
+  }
+
+  // Encontrar todas as músicas
   async findAll() {
     return this.prisma.musica.findMany({
       include: {
@@ -26,15 +38,17 @@ export class MusicService {
     });
   }
 
+  // Encontrar todos os gêneros
   async findAllGenres() {
     return this.prisma.genero.findMany();
   }
 
-  async findOne (id: string) {
+  // Encontrar uma música específica
+  async findOne(id: string) {
     return this.prisma.musica.findUnique({
       where: {
-        id: Number(id)
-      }
-    })
+        id: Number(id),
+      },
+    });
   }
 }
