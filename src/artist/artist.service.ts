@@ -38,7 +38,7 @@ export class ArtistService {
           contains: query,
         },
       },
-      select: { nome: true},
+      select: { id:true, nome: true},
       take: 10,
     });
   }

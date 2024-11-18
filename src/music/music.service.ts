@@ -6,28 +6,34 @@ import { CreateMusicDto } from './dto/create-music.dto';
 export class MusicService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // Método para criar apenas a música
-  async create(data: CreateMusicDto) {
-    return this.prisma.musica.create({
+// Método para criar a música e a relação em uma transação
+async createMusicWithArtistRelation(
+  musicData: CreateMusicDto,
+  artistRelationData: { artistaId: number }
+) {
+  return this.prisma.$transaction(async (prisma) => {
+    // Criar a música
+    const musica = await prisma.musica.create({
       data: {
-        titulo: data.title,
-        duracao: data.duration,
-        link: data.link,
-        slug: data.slug,
-        fkGeneroMusicalId: data.genreId,
+        titulo: musicData.title,
+        duracao: musicData.duration,
+        link: musicData.link,
+        slug: musicData.slug,
+        fkGeneroMusicalId: musicData.genreId,
       },
     });
-  }
 
-  // Método para criar a relação entre a música e o artista
-  async createMusicArtistRelation(data: { musicaId: number; artistaId: number }) {
-    return this.prisma.musicaArtista.create({
+    // Criar a relação entre a música e o artista
+    const musicaArtista = await prisma.musicaArtista.create({
       data: {
-        musicaId: data.musicaId,
-        artistaId: data.artistaId,
+        musicaId: musica.id, // ID gerado no insert da música
+        artistaId: artistRelationData.artistaId,
       },
     });
-  }
+
+    return { musica, musicaArtista };
+  });
+}
 
   // Encontrar todas as músicas
   async findAll() {

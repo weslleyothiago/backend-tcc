@@ -10,15 +10,12 @@ export class MusicController {
   ) {}
 
   @Post('')
-  async create(@Body() createMusicDto: CreateMusicDto) {
-    const createdMusic = await this.musicService.create(createMusicDto);
-    return createdMusic;
-  }
-
-  @Post('music-artist')
-  async createMusicArtistRelation(@Body() data: { musicaId: number; artistaId: number }) {
-    const { musicaId, artistaId } = data;
-    return this.musicService.createMusicArtistRelation({ musicaId, artistaId });
+  async create(@Body() data: {
+    music: CreateMusicDto;
+    artistRelation: {artistaId: number};
+  }) {
+    const {music, artistRelation} = data;
+    return this.musicService.createMusicWithArtistRelation(music, artistRelation);
   }
 
   @IsPublic()
