@@ -12,6 +12,14 @@ export class UserService {
     private readonly slugService: SlugService
   ) {}
 
+  async checkNameExisting(name: string): Promise<boolean> {
+    const profile = await this.prisma.perfil.findMany({
+      where: { nome: name },
+    });
+    return profile.length > 0;  // Verifica se a lista de resultados não está vazia
+  }
+  
+
   async create(createUserDto: CreateUserDto, createProfileDto: CreateProfileDto) {
     const profileSlug = this.slugService.generateSlug(createProfileDto.nome)
     

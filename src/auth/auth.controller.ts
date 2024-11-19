@@ -5,6 +5,8 @@ import {
   Post,
   UseGuards,
   Request,
+  Get,
+  Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -21,5 +23,11 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   login(@Request() req: AuthRequest) {
     return this.authService.login(req.user);
+  }
+
+  @Get('check-email')
+  async checkEmail(@Query('email') email: string) {
+    const emailExists = await this.authService.checkIfEmailExists(email);
+    return { emailExists };
   }
 }

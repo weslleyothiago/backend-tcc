@@ -5,13 +5,22 @@ import { User } from 'src/user/entities/user.entity';
 import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
 import { UserToken } from './models/UserToken';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly prisma: PrismaService,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
+
+  async checkIfEmailExists(email: string): Promise<boolean> {
+    const user = await this.prisma.usuario.findUnique({
+      where: {email},
+    });
+    return user ? true : false;
+  }
 
   login(user: User): UserToken {
     // Transforma o user em JWT

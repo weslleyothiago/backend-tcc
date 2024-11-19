@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
@@ -15,5 +15,11 @@ export class UserController {
     const { createUserDto, createProfileDto } = body;
     return this.userService.create(createUserDto, createProfileDto);
   }
-  
+
+  @Get('check-name')
+  async checkNome(@Query('name') name: string) {
+    const nameExists = await this.userService.checkNameExisting(name);
+    return { nameExists };
+  }  
+
 }
