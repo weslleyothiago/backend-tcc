@@ -16,6 +16,7 @@ export class UserController {
     return this.userService.create(createUserDto, createProfileDto);
   }
 
+  @IsPublic()
   @Get('check-name')
   async checkNome(@Query('name') name: string) {
     const nameExists = await this.userService.checkNameExisting(name);

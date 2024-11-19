@@ -25,6 +25,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
+  @IsPublic()
   @Get('check-email')
   async checkEmail(@Query('email') email: string) {
     const emailExists = await this.authService.checkIfEmailExists(email);

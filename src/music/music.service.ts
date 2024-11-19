@@ -4,42 +4,47 @@ import { CreateMusicDto } from './dto/create-music.dto';
 
 @Injectable()
 export class MusicService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
-// Método para criar a música e a relação em uma transação
-async createMusicWithArtistRelation(
-  musicData: CreateMusicDto,
-  artistRelationData: { artistaId: number }
-) {
-  return this.prisma.$transaction(async (prisma) => {
-    // Criar a música
-    const musica = await prisma.musica.create({
-      data: {
-        titulo: musicData.title,
-        duracao: musicData.duration,
-        link: musicData.link,
-        slug: musicData.slug,
-        fkGeneroMusicalId: musicData.genreId,
-      },
+  // Método para criar a música e a relação em uma transação
+  async createMusicWithArtistRelation(
+    musicData: CreateMusicDto,
+    artistRelationData: { artistaId: number }
+  ) {
+    return this.prisma.$transaction(async (prisma) => {
+      // Criar a música
+      const musica = await prisma.musica.create({
+        data: {
+          titulo: musicData.title,
+          duracao: musicData.duration,
+          link: musicData.link,
+          slug: musicData.slug,
+          fkGeneroMusicalId: musicData.genreId,
+        },
+      });
+
+      // Criar a relação entre a música e o artista
+      const musicaArtista = await prisma.musicaArtista.create({
+        data: {
+          musicaId: musica.id, // ID gerado no insert da música
+          artistaId: artistRelationData.artistaId,
+        },
+      });
+
+      return { musica, musicaArtista };
     });
-
-    // Criar a relação entre a música e o artista
-    const musicaArtista = await prisma.musicaArtista.create({
-      data: {
-        musicaId: musica.id, // ID gerado no insert da música
-        artistaId: artistRelationData.artistaId,
-      },
-    });
-
-    return { musica, musicaArtista };
-  });
-}
+  }
 
   // Encontrar todas as músicas
   async findAll() {
     return this.prisma.musica.findMany({
       include: {
         generoMusical: true,
+        MusicaArtista: {
+          include: {
+            artista: true,
+          }
+        }
       },
     });
   }
