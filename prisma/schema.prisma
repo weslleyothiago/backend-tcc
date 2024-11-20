@@ -33,6 +33,7 @@ model Musica {
  duracao           String  @db.VarChar(20)
  link              String  @unique @db.VarChar(255)
  slug              String  @unique @db.VarChar(255)
+ thumbnail         String  @db.VarChar(255)
  generoMusical     Genero  @relation(fields: [fkGeneroMusicalId], references: [id])
  fkGeneroMusicalId Int
  createdAt DateTime @default(now())

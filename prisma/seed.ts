@@ -46,7 +46,7 @@ async function main() {
       id: 1,
       tipo: 'Administrador',
       email: 'admin@admin.com',
-      senha: '',
+      senha: '$2b$10$QzzuSQL01XlAZuhrTtj42uAni9RDVErORlxGe8JTYv4Cvde1CvWzu',
     },
     {
       id: 2,
