@@ -20,6 +20,7 @@ export class MusicService {
           link: musicData.link,
           slug: musicData.slug,
           fkGeneroMusicalId: musicData.genreId,
+          thumbnail: musicData.thumbnail
         },
       });
 

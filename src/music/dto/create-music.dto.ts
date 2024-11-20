@@ -11,11 +11,11 @@ export class CreateMusicDto {
 
   @IsNotEmpty()
   @IsString()
-  artist: string; // Essa propriedade será tratada em outro lugar
+  artist: string; 
 
   @IsNotEmpty()
   @IsString()
-  duration: string; // Correspondente a "duracao"
+  duration: string;
 
   @IsNotEmpty()
   @IsString()
@@ -24,4 +24,8 @@ export class CreateMusicDto {
   @IsNotEmpty()
   @IsInt()
   genreId: number; // Correspondente a "fkGeneroMusicalId"
+
+  @IsNotEmpty()
+  @IsString()
+  thumbnail: string;
 }
