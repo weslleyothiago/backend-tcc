@@ -36,6 +36,20 @@ export class MusicService {
     });
   }
 
+  async getCountsOfAdminCards(): Promise<{ musicCount: number; artistCount: number, playlistCount: number, profileCount: number }> {
+    const musicCount = await this.prisma.musica.count(); 
+    const artistCount = await this.prisma.artista.count();
+    const playlistCount = await this.prisma.playlist.count();
+    const profileCount = await this.prisma.perfil.count();
+
+    return {
+      musicCount,
+      artistCount,
+      playlistCount,
+      profileCount
+    };
+  }
+
   // Encontrar todas as músicas
   async findAll() {
     return this.prisma.musica.findMany({

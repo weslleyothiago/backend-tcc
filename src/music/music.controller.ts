@@ -25,6 +25,12 @@ export class MusicController {
   }
 
   @IsPublic()
+  @Get('counts')
+  async getCounts() {
+    return await this.musicService.getCountsOfAdminCards();
+  }
+
+  @IsPublic()
   @Get('genres')
   async findAllGenres() {
     return this.musicService.findAllGenres()
