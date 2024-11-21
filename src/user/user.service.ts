@@ -19,6 +19,22 @@ export class UserService {
     return profile.length > 0;  // Verifica se a lista de resultados não está vazia
   }
   
+  async findAllUsers() {
+    return this.prisma.perfil.findMany({
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            tipo: true,
+            email: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+  }
+  
 
   async create(createUserDto: CreateUserDto, createProfileDto: CreateProfileDto) {
     const profileSlug = this.slugService.generateSlug(createProfileDto.nome)

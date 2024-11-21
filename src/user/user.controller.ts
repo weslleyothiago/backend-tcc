@@ -17,6 +17,12 @@ export class UserController {
   }
 
   @IsPublic()
+  @Get()
+  async findAllUsers() {
+    return this.userService.findAllUsers();
+  }
+
+  @IsPublic()
   @Get('check-name')
   async checkNome(@Query('name') name: string) {
     const nameExists = await this.userService.checkNameExisting(name);
