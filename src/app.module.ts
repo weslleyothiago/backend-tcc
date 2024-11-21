@@ -20,9 +20,9 @@ import { ArtistModule } from './artist/artist.module';
     AuthModule, 
     MusicModule, 
     YoutubeModule, 
-    ConfigModule.forRoot({
-    isGlobal: true,
-  }), SlugModule, ArtistModule],
+    ConfigModule.forRoot({isGlobal: true, }), 
+    SlugModule, 
+    ArtistModule],
   controllers: [AppController],
   providers: [
     SlugService,
