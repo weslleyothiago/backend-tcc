@@ -6,7 +6,6 @@ import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
 import { UserToken } from './models/UserToken';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Profile } from 'src/user/entities/profile.entity';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()

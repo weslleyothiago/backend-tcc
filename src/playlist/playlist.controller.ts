@@ -13,7 +13,7 @@ export class PlaylistController {
   }
 
   @Get('profile/:profileId')
-  async getPlaylistsByProfile(@Param('profileId') profileId: number) {
+  async getPlaylistsByProfile(@Param('profileId') profileId: number): Promise<any> {
     return this.playlistService.getPlaylistsByProfile(profileId);
   }
 
