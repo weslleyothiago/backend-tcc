@@ -5,6 +5,19 @@ import { PrismaService } from 'src/prisma/prisma.service'; // Ajuste o caminho p
 export class PlaylistService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getPlaylistsByProfile(profileId: number) {
+    return this.prisma.playlist.findMany({
+      where: {
+        PerfisPlaylists: {
+          some: { perfilId: profileId },
+        },
+      },
+      include: {
+        PerfisPlaylists: true, // Caso você precise de detalhes da relação
+      },
+    });
+  }  
+
   async createPlaylistForProfile(title: string, profileId: number, coverImage?: string) {
     console.log('Dados recebidos:', { title, profileId, coverImage });
   

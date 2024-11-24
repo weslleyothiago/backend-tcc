@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 
@@ -11,4 +11,10 @@ export class PlaylistController {
     const { title, profileId, coverImage } = createPlaylistDto;
     return this.playlistService.createPlaylistForProfile(title, profileId, coverImage);
   }
+
+  @Get('profile/:profileId')
+  async getPlaylistsByProfile(@Param('profileId') profileId: number) {
+    return this.playlistService.getPlaylistsByProfile(profileId);
+  }
+
 }
