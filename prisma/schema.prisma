@@ -79,7 +79,7 @@ model Playlist {
  id   Int     @id @default(autoincrement())
  nome String  @db.VarChar(255)
  slug String  @unique @db.VarChar(255)
- capa String  @db.VarChar(255)
+ capa String?  @db.VarChar(255)
  createdAt DateTime @default(now())
  updatedAt DateTime? @updatedAt
 
