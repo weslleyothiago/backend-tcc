@@ -1,9 +1,28 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service'; // Ajuste o caminho para o seu projeto
 
 @Injectable()
 export class PlaylistService {
   constructor(private readonly prisma: PrismaService) {}
+
+    // Método para adicionar música à playlist
+    async addToPlaylist(playlistId: number, musicaId: number) {
+      if (!musicaId || !playlistId) {
+        throw new Error('ID da música ou da playlist não fornecido');
+      }
+    
+      return this.prisma.playlistMusica.create({
+        data: {
+          playlist: {
+            connect: { id: playlistId },  // Conecta a playlist existente
+          },
+          musica: {
+            connect: { id: musicaId },  // Conecta a música existente
+          },
+        },
+      });
+    }
+    
 
   async getPlaylistsByProfile(profileId: number) {
     return this.prisma.playlist.findMany({

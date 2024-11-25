@@ -16,4 +16,5 @@ export class CreatePlaylistDto {
   @IsOptional()
   @IsString()
   slug?: string;
+
 }
