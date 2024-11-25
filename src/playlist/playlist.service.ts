@@ -24,18 +24,25 @@ export class PlaylistService {
     }
     
 
-  async getPlaylistsByProfile(profileId: number) {
-    return this.prisma.playlist.findMany({
-      where: {
-        PerfisPlaylists: {
-          some: { perfilId: profileId },
+    async getPlaylistsByProfile(profileId: number) {
+      return this.prisma.playlist.findMany({
+        where: {
+          PerfisPlaylists: {
+            some: { perfilId: profileId },
+          },
         },
-      },
-      include: {
-        PerfisPlaylists: true, // Caso você precise de detalhes da relação
-      },
-    });
-  }  
+        include: {
+          PlaylistMusica: {
+            include: {
+              musica: true, // Inclui os detalhes da música vinculada
+            },
+          },
+          PerfisPlaylists: true,
+        },
+      });
+    }
+    
+    
 
   async createPlaylistForProfile(title: string, profileId: number, coverImage?: string) {
     console.log('Dados recebidos:', { title, profileId, coverImage });

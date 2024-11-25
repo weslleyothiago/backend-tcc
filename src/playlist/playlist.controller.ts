@@ -1,7 +1,6 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
-import { PlaylistService } from './playlist.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
-import { AddToPlaylistDto } from './dto/add-to-playlist.dto';
+import { PlaylistService } from './playlist.service';
 
 @Controller('playlists')
 export class PlaylistController {
