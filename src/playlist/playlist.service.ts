@@ -34,7 +34,13 @@ export class PlaylistService {
         include: {
           PlaylistMusica: {
             include: {
-              musica: true, // Inclui os detalhes da música vinculada
+              musica: {
+                include: {
+                  MusicaArtista: {
+                    include: {artista: true}
+                  }
+                }
+              }, // Inclui os detalhes da música vinculada
             },
           },
           PerfisPlaylists: true,
