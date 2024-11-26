@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { MusicService } from './music.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
@@ -16,6 +16,11 @@ export class MusicController {
   }) {
     const {music, artistRelation} = data;
     return this.musicService.createMusicWithArtistRelation(music, artistRelation);
+  }
+
+  @Delete(':id')
+  async deleteMusic(@Param('id') id: string): Promise<void> {
+    await this.musicService.deleteMusic(Number(id));
   }
 
   @IsPublic()

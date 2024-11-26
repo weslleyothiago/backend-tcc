@@ -36,6 +36,11 @@ export class MusicService {
     });
   }
 
+  async deleteMusic(id: number): Promise<void> {
+    await this.prisma.musica.delete({ where: { id } });
+  }
+  
+
   async getCountsOfAdminCards(): Promise<{ musicCount: number; artistCount: number, playlistCount: number, profileCount: number }> {
     const musicCount = await this.prisma.musica.count(); 
     const artistCount = await this.prisma.artista.count();
