@@ -1,90 +1,90 @@
 generator client {
- provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
- provider = "mysql"
- url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Artista {
- id   Int     @id @default(autoincrement())
- nome String  @db.VarChar(255)
- slug String  @unique @db.VarChar(255)
- createdAt DateTime @default(now())
- updatedAt DateTime? @updatedAt
+  id   Int     @id @default(autoincrement())
+  nome String  @db.VarChar(255)
+  slug String  @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 
- MusicaArtista MusicaArtista[]
+  MusicaArtista MusicaArtista[] 
 }
 
 model Genero {
- id            Int     @id @default(autoincrement())
- generoMusical String  @db.VarChar(255)
- slug          String  @unique @db.VarChar(255)
- createdAt DateTime @default(now())
- updatedAt DateTime? @updatedAt
+  id            Int     @id @default(autoincrement())
+  generoMusical String  @db.VarChar(255)
+  slug          String  @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 
- Musicas Musica[]
+  Musicas Musica[] 
 }
 
 model Musica {
- id                Int     @id @default(autoincrement())
- titulo            String  @db.VarChar(255)
- duracao           String  @db.VarChar(20)
- link              String  @unique @db.VarChar(255)
- slug              String  @unique @db.VarChar(255)
- thumbnail         String  @db.VarChar(255)
- generoMusical     Genero  @relation(fields: [fkGeneroMusicalId], references: [id])
- fkGeneroMusicalId Int
- createdAt DateTime @default(now())
- updatedAt DateTime? @updatedAt
+  id                Int     @id @default(autoincrement())
+  titulo            String  @db.VarChar(255)
+  duracao           String  @db.VarChar(20)
+  link              String  @unique @db.VarChar(255)
+  slug              String  @unique @db.VarChar(255)
+  thumbnail         String  @db.VarChar(255)
+  generoMusical     Genero  @relation(fields: [fkGeneroMusicalId], references: [id], onDelete: Cascade)
+  fkGeneroMusicalId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 
- MusicaArtista  MusicaArtista[]
- PlaylistMusica PlaylistMusica[]
- Historico      Historico[]
+  MusicaArtista  MusicaArtista[] 
+  PlaylistMusica PlaylistMusica[] 
+  Historico      Historico[] 
 }
 
 model Usuario {
- id    Int         @id @default(autoincrement())
- tipo  UsuarioTipo @default(Cliente)
- email String      @unique @db.VarChar(255)
- senha String      @db.VarChar(255)
- createdAt DateTime @default(now())
- updatedAt DateTime? @updatedAt
+  id    Int         @id @default(autoincrement())
+  tipo  UsuarioTipo @default(Cliente)
+  email String      @unique @db.VarChar(255)
+  senha String      @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 
- Perfis  Perfil[]
- Sessoes Sessao[]
+  Perfis  Perfil[] 
+  Sessoes Sessao[] 
 }
 
 enum UsuarioTipo {
- Administrador
- Cliente
+  Administrador
+  Cliente
 }
 
 model Perfil {
- id             Int       @id @default(autoincrement())
- nome           String    @db.VarChar(255)
- fotoPerfil     String?   @db.VarChar(255)
- dataNascimento DateTime
- slug           String    @unique @db.VarChar(255)
- usuario        Usuario?  @relation(fields: [fkUsuarioId], references: [id])
- fkUsuarioId    Int
- createdAt DateTime @default(now())
- updatedAt DateTime? @updatedAt
+  id             Int       @id @default(autoincrement())
+  nome           String    @db.VarChar(255)
+  fotoPerfil     String?   @db.VarChar(255)
+  dataNascimento DateTime
+  slug           String    @unique @db.VarChar(255)
+  usuario        Usuario?  @relation(fields: [fkUsuarioId], references: [id], onDelete: Cascade)
+  fkUsuarioId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 
- PerfisPlaylists PerfisPlaylists[]
+  PerfisPlaylists PerfisPlaylists[] 
 }
 
 model Playlist {
- id   Int     @id @default(autoincrement())
- nome String  @db.VarChar(255)
- slug String  @unique @db.VarChar(255)
- capa String?  @db.VarChar(255)
- createdAt DateTime @default(now())
- updatedAt DateTime? @updatedAt
+  id   Int     @id @default(autoincrement())
+  nome String  @db.VarChar(255)
+  slug String  @unique @db.VarChar(255)
+  capa String?  @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 
- PerfisPlaylists PerfisPlaylists[]
- PlaylistMusica  PlaylistMusica[]
+  PerfisPlaylists PerfisPlaylists[] 
+  PlaylistMusica  PlaylistMusica[] 
 }
 
 model PerfisPlaylists {
@@ -98,29 +98,28 @@ model PerfisPlaylists {
   @@id([perfilId, playlistId])
 }
 
-
 model Historico {
- id         Int      @id @default(autoincrement())
- musica     Musica   @relation(fields: [fkMusicaId], references: [id])
- fkMusicaId Int
- dataHora   DateTime
+  id         Int      @id @default(autoincrement())
+  musica     Musica   @relation(fields: [fkMusicaId], references: [id], onDelete: Cascade)
+  fkMusicaId Int
+  dataHora   DateTime
 }
 
 model Sessao {
- id           Int          @id @default(autoincrement())
- usuario      Usuario      @relation(fields: [fkUsuarioId], references: [id])
- fkUsuarioId  Int
- dataInicio   DateTime
- dataFinal    DateTime?
- codigoSessao String       @db.VarChar(255)
- status       SessaoStatus
- createdAt DateTime @default(now())
- updatedAt DateTime? @updatedAt
+  id           Int          @id @default(autoincrement())
+  usuario      Usuario      @relation(fields: [fkUsuarioId], references: [id], onDelete: Cascade)
+  fkUsuarioId  Int
+  dataInicio   DateTime
+  dataFinal    DateTime?
+  codigoSessao String       @db.VarChar(255)
+  status       SessaoStatus
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 enum SessaoStatus {
- Iniciada
- Finalizada
+  Iniciada
+  Finalizada
 }
 
 model MusicaArtista {
@@ -133,7 +132,6 @@ model MusicaArtista {
 
   @@id([musicaId, artistaId])
 }
-
 
 model PlaylistMusica {
   playlistId Int
